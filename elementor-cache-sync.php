@@ -18,9 +18,9 @@ add_action('admin_bar_menu', function ($wp_admin_bar) {
 
     $wp_admin_bar->add_node([
         'id'    => 'elementor_cache_sync',
-        'title' => 'Clear Elementor Cache & Sync',
+        'title' => '🧹 Elementor',
         'href'  => '/wp-admin/admin.php?page=elementor-tools&cache_sync_trigger=true',
-    ]);
+    ]);    
 }, 100);
 
 // Enqueue JavaScript
