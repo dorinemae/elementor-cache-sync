@@ -1,0 +1,19 @@
+name: Clear Elementor Cache
+
+on:
+  push:
+    branches:
+      - main  # Runs only when code is pushed to the main branch
+
+jobs:
+  clear-cache:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Clear Elementor Cache
+        run: |
+          curl -X POST "https://yourwebsite.com/wp-json/elementor/v1/clear_cache" \
+          -H "Authorization: Bearer ${{ secrets.ELEMENTOR_API_KEY }}"

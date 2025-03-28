@@ -1,0 +1,39 @@
+name: Deploy Elementor Cache Sync
+
+on:
+  push:
+    branches:
+      - main  # Runs deployment on every push to main branch
+  workflow_dispatch:  # Allows manual triggering from Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Runs the job on latest Ubuntu environment
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4  # Fetches the repo code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20  # Change to match your project
+
+      - name: Install Dependencies
+        run: npm install  # Adjust if your project uses yarn or pnpm
+
+      - name: Build Project
+        run: npm run build  # Change if you have a different build command
+
+      - name: Deploy
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          echo "Deploying project..."
+          # Example FTP/SFTP deployment (adjust as needed)
+          lftp -c "open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -R ./dist /path/on/server"
+
+      - name: Post-Deployment Cleanup
+        run: echo "Deployment complete!"
